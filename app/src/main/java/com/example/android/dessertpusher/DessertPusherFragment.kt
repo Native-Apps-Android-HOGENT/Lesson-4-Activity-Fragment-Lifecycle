@@ -14,7 +14,7 @@ import com.example.android.dessertpusher.domain.DessertShop
 
 /** onSaveInstanceState Bundle Keys **/
 private const val KEY_DESSERTSHOP = "shop_key"
-private const val GAME_TIME = 5
+private const val GAME_TIME = 20
 
 class DessertPusherFragment : Fragment(), DessertTimer.TimerListener {
 

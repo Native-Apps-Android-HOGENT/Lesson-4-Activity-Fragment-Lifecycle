@@ -13,13 +13,13 @@
         <action
             android:id="@+id/action_dessertPusherFragment_to_gameOverFragment"
             app:destination="@id/gameOverFragment"
-            app:popUpTo="@+id/navigation_main"
+            app:launchSingleTop="false"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/gameOverFragment"
         android:name="com.example.android.dessertpusher.GameOverFragment"
-        tools:layout="@layout/fragment_gameover "
+        tools:layout="@layout/fragment_gameover"
         android:label="GameOverFragment" >
         <argument
             android:name="timesClicked"
@@ -27,6 +27,11 @@
         <argument
             android:name="secondsPassed"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_gameOverFragment_to_dessertPusherFragment"
+            app:destination="@id/dessertPusherFragment"
+            app:popUpTo="@+id/dessertPusherFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
 </navigation>
