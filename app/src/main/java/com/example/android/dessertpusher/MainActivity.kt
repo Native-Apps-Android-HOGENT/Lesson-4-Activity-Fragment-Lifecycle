@@ -26,15 +26,18 @@ import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
+import com.example.android.dessertpusher.domain.BackgroundMusicPlayer
 import com.example.android.dessertpusher.domain.DessertShop
 import timber.log.Timber
 
 /** onSaveInstanceState Bundle Keys **/
 const val KEY_DESSERTSHOP = "shop_key"
+const val KEY_POSITION = "player_ position_key"
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private lateinit var dessertTimer: DessertTimer
+    private lateinit var backgroundMusicPlayer: BackgroundMusicPlayer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -55,11 +58,16 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         // Setup dessertTimer, passing in the lifecycle
         dessertTimer = DessertTimer(this.lifecycle)
 
+        // Setup BackgroundPlayer, passing in the lifecycle, context and music to play
+        backgroundMusicPlayer = BackgroundMusicPlayer(this.lifecycle, this, R.raw.bensound_littleidea)
+
         // If there is a savedInstanceState bundle, then you're "restarting" the activity
         // If there isn't a bundle, then it's a "fresh" start
         if (savedInstanceState != null) {
             // Get all the game state information from the bundle, set it
             dessertShop = savedInstanceState.getParcelable(KEY_DESSERTSHOP)!!
+            backgroundMusicPlayer.startPosition = savedInstanceState.getInt("POS")
+
         } else {
             dessertShop = DessertShop()
         }
@@ -71,6 +79,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private fun updateUI() {
         binding.invalidateAll()
     }
+
 
     /**
      * Updates the score when the dessert is clicked. Possibly shows a new dessert.
@@ -115,6 +124,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(KEY_DESSERTSHOP, dessertShop)
         Timber.i("onSaveInstanceState Called")
+        outState.putInt(KEY_POSITION, backgroundMusicPlayer.startPosition)
         super.onSaveInstanceState(outState)
     }
 
