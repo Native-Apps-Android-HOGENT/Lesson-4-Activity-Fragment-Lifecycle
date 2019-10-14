@@ -1,6 +1,10 @@
 package com.example.android.dessertpusher.domain
 
-class DessertShop {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class DessertShop : Parcelable{
 
     /**
      * It would be more correct if these couldn't be set publicly, but we need this in order to

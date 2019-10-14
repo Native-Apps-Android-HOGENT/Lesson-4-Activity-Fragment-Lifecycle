@@ -30,9 +30,7 @@ import com.example.android.dessertpusher.domain.DessertShop
 import timber.log.Timber
 
 /** onSaveInstanceState Bundle Keys **/
-const val KEY_REVENUE = "revenue_key"
-const val KEY_DESSERT_SOLD = "dessert_sold_key"
-const val KEY_TIMER_SECONDS = "timer_seconds_key"
+const val KEY_DESSERTSHOP = "shop_key"
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
 
-    private val dessertShop = DessertShop()
+    private lateinit var dessertShop: DessertShop
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,9 +59,9 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         // If there isn't a bundle, then it's a "fresh" start
         if (savedInstanceState != null) {
             // Get all the game state information from the bundle, set it
-            dessertShop.revenue = savedInstanceState.getInt(KEY_REVENUE, 0)
-            dessertShop.dessertsSold = savedInstanceState.getInt(KEY_DESSERT_SOLD, 0)
-            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_TIMER_SECONDS, 0)
+            dessertShop = savedInstanceState.getParcelable(KEY_DESSERTSHOP)!!
+        } else {
+            dessertShop = DessertShop()
         }
 
         // Set the TextViews to the right values
@@ -115,9 +113,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
      * Called when the user navigates away from the app but might come back
      */
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(KEY_REVENUE, dessertShop.revenue)
-        outState.putInt(KEY_DESSERT_SOLD, dessertShop.dessertsSold)
-        outState.putInt(KEY_TIMER_SECONDS, dessertTimer.secondsCount)
+        outState.putParcelable(KEY_DESSERTSHOP, dessertShop)
         Timber.i("onSaveInstanceState Called")
         super.onSaveInstanceState(outState)
     }
