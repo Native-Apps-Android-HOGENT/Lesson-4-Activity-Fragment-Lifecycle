@@ -7,14 +7,16 @@ import android.widget.Toast
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.android.dessertpusher.databinding.FragmentDessertpusherBinding
 import com.example.android.dessertpusher.domain.DessertShop
 
 
 /** onSaveInstanceState Bundle Keys **/
 private const val KEY_DESSERTSHOP = "shop_key"
+private const val GAME_TIME = 5
 
-class DessertPusherFragment : Fragment() {
+class DessertPusherFragment : Fragment(), DessertTimer.TimerListener {
 
     private lateinit var dessertTimer: DessertTimer
 
@@ -29,7 +31,7 @@ class DessertPusherFragment : Fragment() {
         setHasOptionsMenu(true)
 
         // Setup dessertTimer, passing in the lifecycle
-        dessertTimer = DessertTimer(this.lifecycle)
+        dessertTimer = DessertTimer(this.lifecycle, this, GAME_TIME)
 
         // If there is a savedInstanceState bundle, then you're "restarting" the activity
         // If there isn't a bundle, then it's a "fresh" start
@@ -65,6 +67,10 @@ class DessertPusherFragment : Fragment() {
     private fun onDessertClicked() {
         dessertShop.onDessertSold()
         updateUI()
+    }
+
+    override fun onTimerFinished() {
+        view!!.findNavController().navigate(DessertPusherFragmentDirections.actionDessertPusherFragmentToGameOverFragment(dessertShop.dessertsSold, GAME_TIME))
     }
 
 

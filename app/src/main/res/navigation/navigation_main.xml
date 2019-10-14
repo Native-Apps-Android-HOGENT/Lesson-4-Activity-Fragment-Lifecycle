@@ -9,6 +9,24 @@
         android:id="@+id/dessertPusherFragment"
         android:name="com.example.android.dessertpusher.DessertPusherFragment"
         android:label="DessertPusherFragment"
-        tools:layout="@layout/fragment_dessertpusher" />
+        tools:layout="@layout/fragment_dessertpusher" >
+        <action
+            android:id="@+id/action_dessertPusherFragment_to_gameOverFragment"
+            app:destination="@id/gameOverFragment"
+            app:popUpTo="@+id/navigation_main"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameOverFragment"
+        android:name="com.example.android.dessertpusher.GameOverFragment"
+        tools:layout="@layout/fragment_gameover "
+        android:label="GameOverFragment" >
+        <argument
+            android:name="timesClicked"
+            app:argType="integer" />
+        <argument
+            android:name="secondsPassed"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

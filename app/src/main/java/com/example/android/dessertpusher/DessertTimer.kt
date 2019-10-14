@@ -37,10 +37,16 @@ import timber.log.Timber
  * https://developer.android.com/guide/components/processes-and-threads
  *
  */
-class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
+class DessertTimer(lifecycle: Lifecycle,
+                   private val timerListener: TimerListener,
+                   private val maxTime: Int = 60) : LifecycleObserver {
+
+    interface TimerListener {
+        fun onTimerFinished()
+    }
 
     // The number of seconds counted since the timer started
-    var secondsCount = 0
+    private var secondsCount = 0
 
     /**
      * [Handler] is a class meant to process a queue of messages (known as [android.os.Message]s)
@@ -62,10 +68,15 @@ class DessertTimer(lifecycle: Lifecycle) : LifecycleObserver {
         runnable = Runnable {
             secondsCount++
             Timber.i("Timer is at : $secondsCount")
-            // postDelayed re-adds the action to the queue of actions the Handler is cycling
-            // through. The delayMillis param tells the handler to run the runnable in
-            // 1 second (1000ms)
-            handler.postDelayed(runnable, 1000)
+
+            if (secondsCount == maxTime) {
+                timerListener.onTimerFinished()
+            } else {
+                // postDelayed re-adds the action to the queue of actions the Handler is cycling
+                // through. The delayMillis param tells the handler to run the runnable in
+                // 1 second (1000ms)
+                handler.postDelayed(runnable, 1000)
+            }
         }
 
         // This is what initially starts the timer
