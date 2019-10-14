@@ -1,6 +1,7 @@
 package com.example.android.dessertpusher.domain
 
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -13,6 +14,7 @@ class DessertShop : Parcelable{
     var revenue = 0
     var dessertsSold = 0
 
+    @IgnoredOnParcel
     private val dessertRepository = DessertRepository()
 
     var currentDessert = dessertRepository.desserts.first()
