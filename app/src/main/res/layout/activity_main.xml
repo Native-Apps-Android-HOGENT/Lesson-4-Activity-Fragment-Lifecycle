@@ -20,13 +20,13 @@
 
     <data>
 
-        <variable
-            name="revenue"
-            type="Integer" />
+        <import type="androidx.core.content.ContextCompat"/>
+
+        <import type="com.example.android.dessertpusher.domain.Dessert" />
 
         <variable
-            name="amountSold"
-            type="Integer" />
+            name="dessertShop"
+            type="com.example.android.dessertpusher.domain.DessertShop" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,6 +72,7 @@
             android:layout_height="@dimen/button_height"
             android:background="?android:selectableItemBackground"
             android:scaleType="centerCrop"
+            android:src="@{ContextCompat.getDrawable(context, dessertShop.currentDessert.imageId)}"
             app:layout_constraintBottom_toTopOf="@+id/white_background"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -95,7 +96,7 @@
             android:id="@+id/revenue_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{"$" + revenue.toString()}'
+            android:text='@{"$" + dessertShop.revenue}'
             android:textColor="@color/green"
             android:textSize="@dimen/large_text_size"
             app:layout_constraintBottom_toTopOf="@+id/margin_bottom_guide"
@@ -119,7 +120,7 @@
             android:layout_marginBottom="@dimen/default_spacing"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="@dimen/default_spacing"
-            android:text="@{amountSold.toString()}"
+            android:text="@{String.valueOf(dessertShop.dessertsSold)}"
             android:textColor="@color/grey"
             android:textSize="@dimen/medium_text_size"
             app:layout_constraintBottom_toTopOf="@+id/revenue_text"
